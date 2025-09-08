@@ -6,24 +6,28 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Gerador de Logo com IA</h1>
-
-  <div class="inputs">
-    <input id="nicho" placeholder="Digite o nicho"><br>
-    <input id="estilo" placeholder="Digite o estilo"><br>
-    <input id="sele" placeholder="Digite a seleção"><br>
-    <button onclick="gerarLogo()">Gerar Logo</button>
-    <button onclick="abrirSugestoes()">Sugestões</button>
+  <div id="tela-chave" class="tela-chave">
+    <h2>Digite sua chave de ativação</h2>
+    <input id="chave" placeholder="Insira sua chave">
+    <button onclick="validarChave()">Entrar</button>
   </div>
 
-  <div><img id="logo"></div>
+  <div id="app" class="app" style="display:none;">
+    <h1>Gerador de Logo com IA</h1>
+    <input id="nicho" placeholder="Digite o nicho"><br>
+    <input id="estilo" placeholder="Digite o estilo"><br>
+    <button onclick="gerarLogo()">Gerar Logo</button>
+    <button onclick="abrirSugestoes()">Sugestões</button>
+    <div><img id="logo"></div>
+  </div>
 
   <!-- Caixa de sugestões -->
   <div id="overlay" class="overlay">
     <div class="box">
       <b><u>Envie sua sugestão para: caixa.sujestoes@gmail.com</u></b><br><br>
-      <b>Escreva abaixo sua sugestão e copie para enviar por email.</b><br><br>
+      <b>Escreva abaixo sua sugestão:</b><br><br>
       <textarea id="textoSug"></textarea><br>
+      <button onclick="salvarSugestao()">Salvar .txt</button>
       <button onclick="fecharSugestoes()">Cancelar</button>
     </div>
   </div>
