@@ -1,15 +1,17 @@
-function gerarLogo() {
-  const key = prompt("Digite sua chave de ativação:");
-  if(!(key === "gays_viados" || key === "X9F3-2PLK-7HTW-9QZB")) {
+function validarChave() {
+  const chave = document.getElementById("chave").value;
+  if (chave === "gays_viados" || chave === "X9F3-2PLK-7HTW-9QZB") {
+    document.getElementById("tela-chave").style.display = "none";
+    document.getElementById("app").style.display = "block";
+  } else {
     alert("Chave inválida!");
-    return;
   }
+}
 
+function gerarLogo() {
   const nicho = document.getElementById("nicho").value;
   const estilo = document.getElementById("estilo").value;
-  const sele = document.getElementById("sele").value;
 
-  // Simulação: usa imagens pré-carregadas
   const logos = [
     "https://via.placeholder.com/400x400?text=Logo+1",
     "https://via.placeholder.com/400x400?text=Logo+2",
@@ -18,7 +20,7 @@ function gerarLogo() {
   const aleatorio = Math.floor(Math.random() * logos.length);
   document.getElementById("logo").src = logos[aleatorio];
 
-  alert(`Logo gerado para ${nicho}, estilo ${estilo}, com ${sele}`);
+  alert(`Logo gerado para ${nicho}, estilo ${estilo}`);
 }
 
 function abrirSugestoes() {
@@ -26,4 +28,13 @@ function abrirSugestoes() {
 }
 function fecharSugestoes() {
   document.getElementById("overlay").style.display="none";
+}
+
+function salvarSugestao() {
+  const texto = document.getElementById("textoSug").value;
+  const blob = new Blob([texto], { type: "text/plain" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "sugestao.txt";
+  link.click();
 }
