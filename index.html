@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerador de Logo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Gerador de Logo com IA</h1>
+
+  <div class="inputs">
+    <input id="nicho" placeholder="Digite o nicho"><br>
+    <input id="estilo" placeholder="Digite o estilo"><br>
+    <input id="sele" placeholder="Digite a seleção"><br>
+    <button onclick="gerarLogo()">Gerar Logo</button>
+    <button onclick="abrirSugestoes()">Sugestões</button>
+  </div>
+
+  <div><img id="logo"></div>
+
+  <!-- Caixa de sugestões -->
+  <div id="overlay" class="overlay">
+    <div class="box">
+      <b><u>Envie sua sugestão para: caixa.sujestoes@gmail.com</u></b><br><br>
+      <b>Escreva abaixo sua sugestão e copie para enviar por email.</b><br><br>
+      <textarea id="textoSug"></textarea><br>
+      <button onclick="fecharSugestoes()">Cancelar</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
