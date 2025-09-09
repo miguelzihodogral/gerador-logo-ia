@@ -2,59 +2,104 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gerador de Logo</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Gerador com Sugestões</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; background: #f4f4f4; margin: 0; padding: 20px; }
+    #login, #gerador, #admin { display: none; }
+    textarea { width: 300px; height: 100px; margin: 10px 0; }
+    button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    .sugestao { border: 1px solid #ccc; background: #fff; margin: 5px; padding: 10px; }
+    .aceita { background: #c8f7c5; }
+  </style>
 </head>
 <body>
-  <div class="activation-container" id="activationContainer">
-    <h2>Digite seu código de ativação</h2>
-    <input type="text" id="activationCode" placeholder="Código">
-    <button onclick="activate()">Entrar</button>
-    <p id="activationError" class="error"></p>
+  <h2>Digite seu código de ativação</h2>
+  <div id="login">
+    <input type="text" id="codigo" placeholder="Código de ativação">
+    <button onclick="ativar()">Entrar</button>
   </div>
 
-  <div class="app-container" id="appContainer" style="display:none;">
-    <h1>Crie seu logo em segundos</h1>
-    <label>Nome da marca:</label>
-    <input type="text" id="brandName" placeholder="Digite o nome da marca">
-
-    <label>Nicho:</label>
-    <input type="text" id="niche" placeholder="Digite o nicho">
-
-    <label>Estilo:</label>
-    <input type="text" id="style" placeholder="Digite o estilo">
-
-    <label>Adicionar minha foto (opcional):</label>
-    <input type="file" id="photo">
-
-    <button onclick="generateLogo()">Gerar logo</button>
-
-    <div id="logoPreview" class="preview"></div>
-
-    <button onclick="openSuggestionBox()">Sugestões</button>
+  <div id="gerador">
+    <h2>Gerador</h2>
+    <textarea id="texto" placeholder="Digite sua sugestão..."></textarea><br>
+    <button onclick="enviarSugestao()">Enviar Sugestão</button>
   </div>
 
-  <div class="suggestion-box" id="suggestionBox" style="display:none;">
-    <h2><u><b>Envie sua sugestão</b></u></h2>
-    <textarea id="suggestionText" placeholder="Escreva sua sugestão aqui..."></textarea>
-    <div class="buttons">
-      <button onclick="sendSuggestion()">Enviar</button>
-      <button onclick="closeSuggestionBox()">Cancelar</button>
-    </div>
+  <div id="admin">
+    <h2>Painel do ADM</h2>
+    <div id="pendentes"></div>
+    <h3>Sugestões Aceitas</h3>
+    <div id="aceitas"></div>
   </div>
 
-  <div class="admin-container" id="adminContainer" style="display:none;">
-    <h1>Painel do Admin</h1>
-    <h2>Sugestões Recebidas</h2>
-    <ul id="suggestionsList"></ul>
+  <script>
+    let isAdmin = false;
+    let pendentes = [];
+    let aceitas = [];
 
-    <h2>Sugestões Aceitas</h2>
-    <ul id="acceptedList"></ul>
+    document.getElementById("login").style.display = "block";
 
-    <button onclick="logout()">Sair</button>
-  </div>
+    function ativar() {
+      const codigo = document.getElementById("codigo").value.trim();
+      if (codigo === "cliente") {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("gerador").style.display = "block";
+      } else if (codigo === "gays-viados") {
+        isAdmin = true;
+        document.getElementById("login").style.display = "none";
+        document.getElementById("gerador").style.display = "block";
+        document.getElementById("admin").style.display = "block";
+      } else {
+        alert("Código inválido!");
+      }
+    }
 
-  <script src="script.js"></script>
+    function enviarSugestao() {
+      const texto = document.getElementById("texto").value.trim();
+      if (!texto) return alert("Digite algo!");
+      if (isAdmin) {
+        pendentes.push(texto);
+        atualizarPendentes();
+      } else {
+        alert("Sugestão enviada! (aguarde aprovação do ADM)");
+        pendentes.push(texto);
+      }
+      document.getElementById("texto").value = "";
+    }
+
+    function atualizarPendentes() {
+      const div = document.getElementById("pendentes");
+      div.innerHTML = "<h3>Sugestões Pendentes</h3>";
+      pendentes.forEach((s, i) => {
+        div.innerHTML += `
+          <div class="sugestao">
+            ${s}<br>
+            <button onclick="aceitar(${i})">Aceitar</button>
+            <button onclick="recusar(${i})">Recusar</button>
+          </div>
+        `;
+      });
+    }
+
+    function aceitar(i) {
+      aceitas.push(pendentes[i]);
+      pendentes.splice(i, 1);
+      atualizarPendentes();
+      atualizarAceitas();
+    }
+
+    function recusar(i) {
+      pendentes.splice(i, 1);
+      atualizarPendentes();
+    }
+
+    function atualizarAceitas() {
+      const div = document.getElementById("aceitas");
+      div.innerHTML = "";
+      aceitas.forEach(s => {
+        div.innerHTML += `<div class="sugestao aceita">${s}</div>`;
+      });
+    }
+  </script>
 </body>
 </html>
