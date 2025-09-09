@@ -8,7 +8,7 @@ body {
 h1, h2 {
   text-align: center;
 }
-.login-container, .app-container, .admin-container, .suggestion-box {
+.activation-container, .app-container, .admin-container, .suggestion-box {
   max-width: 500px;
   margin: 30px auto;
   background: #fff;

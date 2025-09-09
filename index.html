@@ -7,12 +7,11 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="login-container" id="loginContainer">
-    <h2>Login</h2>
-    <input type="text" id="username" placeholder="Usuário">
-    <input type="password" id="password" placeholder="Senha">
-    <button onclick="login()">Entrar</button>
-    <p id="loginError" class="error"></p>
+  <div class="activation-container" id="activationContainer">
+    <h2>Digite seu código de ativação</h2>
+    <input type="text" id="activationCode" placeholder="Código">
+    <button onclick="activate()">Entrar</button>
+    <p id="activationError" class="error"></p>
   </div>
 
   <div class="app-container" id="appContainer" style="display:none;">
@@ -37,7 +36,7 @@
   </div>
 
   <div class="suggestion-box" id="suggestionBox" style="display:none;">
-    <h2>Enviar Sugestão</h2>
+    <h2><u><b>Envie sua sugestão</b></u></h2>
     <textarea id="suggestionText" placeholder="Escreva sua sugestão aqui..."></textarea>
     <div class="buttons">
       <button onclick="sendSuggestion()">Enviar</button>

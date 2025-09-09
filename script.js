@@ -2,26 +2,27 @@ let suggestions = [];
 let accepted = [];
 let currentUser = "";
 
-function login() {
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-  const loginError = document.getElementById('loginError');
+function activate() {
+  const code = document.getElementById('activationCode').value;
+  const error = document.getElementById('activationError');
 
-  if(username === "gays-viados" && password === "123") {
+  if(code === "gays-viados") {
     currentUser = "admin";
-    document.getElementById('loginContainer').style.display = "none";
+    document.getElementById('activationContainer').style.display = "none";
     document.getElementById('adminContainer').style.display = "block";
     renderSuggestions();
-  } else {
+  } else if(code === "cliente") {
     currentUser = "user";
-    document.getElementById('loginContainer').style.display = "none";
+    document.getElementById('activationContainer').style.display = "none";
     document.getElementById('appContainer').style.display = "block";
+  } else {
+    error.textContent = "Código inválido!";
   }
 }
 
 function logout() {
   currentUser = "";
-  document.getElementById('loginContainer').style.display = "block";
+  document.getElementById('activationContainer').style.display = "block";
   document.getElementById('appContainer').style.display = "none";
   document.getElementById('adminContainer').style.display = "none";
 }
