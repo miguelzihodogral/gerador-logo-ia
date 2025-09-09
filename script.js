@@ -1,40 +1,53 @@
-function validarChave() {
-  const chave = document.getElementById("chave").value;
-  if (chave === "gays_viados" || chave === "X9F3-2PLK-7HTW-9QZB") {
-    document.getElementById("tela-chave").style.display = "none";
-    document.getElementById("app").style.display = "block";
+const ADMIN_KEY = "gays-viados";
+let sugestoes = [];
+
+function login() {
+  const key = document.getElementById("login-key").value;
+  if (!key) {
+    document.getElementById("login-error").innerText = "Digite a chave!";
+    return;
+  }
+
+  document.getElementById("login-screen").classList.add("hidden");
+
+  if (key === ADMIN_KEY) {
+    document.getElementById("admin-screen").classList.remove("hidden");
+    renderSugestoes();
   } else {
-    alert("Chave inválida!");
+    document.getElementById("app-screen").classList.remove("hidden");
   }
 }
 
-function gerarLogo() {
-  const nicho = document.getElementById("nicho").value;
-  const estilo = document.getElementById("estilo").value;
-
-  const logos = [
-    "https://via.placeholder.com/400x400?text=Logo+1",
-    "https://via.placeholder.com/400x400?text=Logo+2",
-    "https://via.placeholder.com/400x400?text=Logo+3"
-  ];
-  const aleatorio = Math.floor(Math.random() * logos.length);
-  document.getElementById("logo").src = logos[aleatorio];
-
-  alert(`Logo gerado para ${nicho}, estilo ${estilo}`);
-}
-
-function abrirSugestoes() {
-  document.getElementById("overlay").style.display="flex";
-}
-function fecharSugestoes() {
-  document.getElementById("overlay").style.display="none";
-}
-
 function salvarSugestao() {
-  const texto = document.getElementById("textoSug").value;
+  const texto = document.getElementById("sugestao").value;
+  if (!texto.trim()) {
+    document.getElementById("msg").innerText = "Digite uma sugestão!";
+    return;
+  }
+
+  sugestoes.push(texto);
+
+  // Salvar em .txt
   const blob = new Blob([texto], { type: "text/plain" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
   link.download = "sugestao.txt";
   link.click();
+
+  document.getElementById("msg").innerText = "Sugestão salva!";
+  document.getElementById("sugestao").value = "";
+
+  renderSugestoes();
+}
+
+function renderSugestoes() {
+  const lista = document.getElementById("lista-sugestoes");
+  if (!lista) return;
+
+  lista.innerHTML = "";
+  sugestoes.forEach((s, i) => {
+    const li = document.createElement("li");
+    li.innerText = `${i + 1}. ${s}`;
+    lista.appendChild(li);
+  });
 }
