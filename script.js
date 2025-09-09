@@ -1,53 +1,86 @@
-const ADMIN_KEY = "gays-viados";
-let sugestoes = [];
+let suggestions = [];
+let accepted = [];
+let currentUser = "";
 
 function login() {
-  const key = document.getElementById("login-key").value;
-  if (!key) {
-    document.getElementById("login-error").innerText = "Digite a chave!";
-    return;
-  }
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const loginError = document.getElementById('loginError');
 
-  document.getElementById("login-screen").classList.add("hidden");
-
-  if (key === ADMIN_KEY) {
-    document.getElementById("admin-screen").classList.remove("hidden");
-    renderSugestoes();
+  if(username === "gays-viados" && password === "123") {
+    currentUser = "admin";
+    document.getElementById('loginContainer').style.display = "none";
+    document.getElementById('adminContainer').style.display = "block";
+    renderSuggestions();
   } else {
-    document.getElementById("app-screen").classList.remove("hidden");
+    currentUser = "user";
+    document.getElementById('loginContainer').style.display = "none";
+    document.getElementById('appContainer').style.display = "block";
   }
 }
 
-function salvarSugestao() {
-  const texto = document.getElementById("sugestao").value;
-  if (!texto.trim()) {
-    document.getElementById("msg").innerText = "Digite uma sugestão!";
-    return;
-  }
-
-  sugestoes.push(texto);
-
-  // Salvar em .txt
-  const blob = new Blob([texto], { type: "text/plain" });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = "sugestao.txt";
-  link.click();
-
-  document.getElementById("msg").innerText = "Sugestão salva!";
-  document.getElementById("sugestao").value = "";
-
-  renderSugestoes();
+function logout() {
+  currentUser = "";
+  document.getElementById('loginContainer').style.display = "block";
+  document.getElementById('appContainer').style.display = "none";
+  document.getElementById('adminContainer').style.display = "none";
 }
 
-function renderSugestoes() {
-  const lista = document.getElementById("lista-sugestoes");
-  if (!lista) return;
+function generateLogo() {
+  const brand = document.getElementById('brandName').value;
+  const niche = document.getElementById('niche').value;
+  const style = document.getElementById('style').value;
 
-  lista.innerHTML = "";
-  sugestoes.forEach((s, i) => {
-    const li = document.createElement("li");
-    li.innerText = `${i + 1}. ${s}`;
-    lista.appendChild(li);
-  });
+  const preview = document.getElementById('logoPreview');
+  preview.innerHTML = `<h3>${brand}</h3><p>${niche} | ${style}</p>`;
+}
+
+function openSuggestionBox() {
+  document.getElementById('suggestionBox').style.display = "block";
+}
+
+function closeSuggestionBox() {
+  document.getElementById('suggestionBox').style.display = "none";
+}
+
+function sendSuggestion() {
+  const text = document.getElementById('suggestionText').value;
+  if(text.trim() !== "") {
+    suggestions.push(text);
+    alert("Sugestão enviada!");
+    document.getElementById('suggestionText').value = "";
+    closeSuggestionBox();
+    renderSuggestions();
+  }
+}
+
+function renderSuggestions() {
+  if(currentUser === "admin") {
+    const list = document.getElementById('suggestionsList');
+    list.innerHTML = "";
+    suggestions.forEach((sug, index) => {
+      const li = document.createElement('li');
+      li.innerHTML = `${sug} <div><button onclick="acceptSuggestion(${index})">Aceitar</button> <button onclick="rejectSuggestion(${index})">Recusar</button></div>`;
+      list.appendChild(li);
+    });
+
+    const acceptedList = document.getElementById('acceptedList');
+    acceptedList.innerHTML = "";
+    accepted.forEach(acc => {
+      const li = document.createElement('li');
+      li.textContent = acc;
+      acceptedList.appendChild(li);
+    });
+  }
+}
+
+function acceptSuggestion(index) {
+  accepted.push(suggestions[index]);
+  suggestions.splice(index, 1);
+  renderSuggestions();
+}
+
+function rejectSuggestion(index) {
+  suggestions.splice(index, 1);
+  renderSuggestions();
 }

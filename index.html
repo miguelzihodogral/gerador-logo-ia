@@ -3,31 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>App de Sugestões</title>
+  <title>Gerador de Logo</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="login-screen" class="screen">
-    <h2>🔑 Digite sua chave de acesso</h2>
-    <input type="password" id="login-key" placeholder="Insira a chave...">
+  <div class="login-container" id="loginContainer">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Usuário">
+    <input type="password" id="password" placeholder="Senha">
     <button onclick="login()">Entrar</button>
-    <p id="login-error" class="error"></p>
+    <p id="loginError" class="error"></p>
   </div>
 
-  <div id="app-screen" class="screen hidden">
-    <h1>📨 Enviar Sugestão</h1>
-    <p><b><u>Tutorial:</u></b><br>
-    Digite sua sugestão no campo abaixo, clique em <b>Enviar</b> e o arquivo será salvo em <b>.txt</b>. 
-    Depois envie para <b>caixa.sujestoes@gmail.com</b>.</p>
+  <div class="app-container" id="appContainer" style="display:none;">
+    <h1>Crie seu logo em segundos</h1>
+    <label>Nome da marca:</label>
+    <input type="text" id="brandName" placeholder="Digite o nome da marca">
 
-    <textarea id="sugestao" placeholder="Escreva sua sugestão aqui..."></textarea>
-    <button onclick="salvarSugestao()">Enviar</button>
-    <p id="msg"></p>
+    <label>Nicho:</label>
+    <input type="text" id="niche" placeholder="Digite o nicho">
+
+    <label>Estilo:</label>
+    <input type="text" id="style" placeholder="Digite o estilo">
+
+    <label>Adicionar minha foto (opcional):</label>
+    <input type="file" id="photo">
+
+    <button onclick="generateLogo()">Gerar logo</button>
+
+    <div id="logoPreview" class="preview"></div>
+
+    <button onclick="openSuggestionBox()">Sugestões</button>
   </div>
 
-  <div id="admin-screen" class="screen hidden">
-    <h1>📋 Sugestões Recebidas</h1>
-    <ul id="lista-sugestoes"></ul>
+  <div class="suggestion-box" id="suggestionBox" style="display:none;">
+    <h2>Enviar Sugestão</h2>
+    <textarea id="suggestionText" placeholder="Escreva sua sugestão aqui..."></textarea>
+    <div class="buttons">
+      <button onclick="sendSuggestion()">Enviar</button>
+      <button onclick="closeSuggestionBox()">Cancelar</button>
+    </div>
+  </div>
+
+  <div class="admin-container" id="adminContainer" style="display:none;">
+    <h1>Painel do Admin</h1>
+    <h2>Sugestões Recebidas</h2>
+    <ul id="suggestionsList"></ul>
+
+    <h2>Sugestões Aceitas</h2>
+    <ul id="acceptedList"></ul>
+
+    <button onclick="logout()">Sair</button>
   </div>
 
   <script src="script.js"></script>
